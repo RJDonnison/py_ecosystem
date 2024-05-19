@@ -1,3 +1,6 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
 FILE_HEADER = "Population"
 
 class Simulation:
@@ -27,7 +30,7 @@ class Simulation:
            
         # Run for number of turns 
         self.current_turn = 1
-        while self.current_turn < turns:
+        while self.current_turn <= turns:
             self.trun()
             self.current_turn += 1
     
@@ -47,8 +50,27 @@ class Simulation:
         with open(self.filename, 'a') as outfile:
             outfile.write(f'\n{self.population}')
          
-    def show_data(self):
+    def show_data(self, title, data_index):
         """Show graph of data"""
+        infile = open(self.filename)
+        lines = infile.read().splitlines()
+        infile.close()
+        
+        axes = plt.axes()
+        axes.grid(True)
+        
+        xs = np.arange(0, len(lines[1:]), 1)
+        ys = [int(data.split(',')[data_index]) for data in lines[1:]]
+        
+        axes.plot(xs, ys, linestyle='-',color='darkgreen')
+        
+        axes.set_title(title)
+        axes.set_xlabel("Turns")
+        axes.set_ylabel(lines[0].split(',')[data_index])
+        
+        plt.tight_layout()
+        plt.show()
         
 sim = Simulation(10, 'data/simulation.csv')
 sim.start(5)
+sim.show_data("Thing", 0)
