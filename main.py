@@ -39,11 +39,12 @@ class Simulation:
     def trun(self):
         """One turn of simulation"""
         self.population -= 1
-        self.save_turn_data()
         # TODO: make creatures get food
         # TODO: check creatures death
         # TODO: check mates
-        # TODO: mate creatures   
+        # TODO: mate creatures 
+          
+        self.save_turn_data()
         
     def save_turn_data(self):
         """Save turn data to file"""
@@ -68,9 +69,12 @@ class Simulation:
         axes.set_xlabel("Turns")
         axes.set_ylabel(lines[0].split(',')[data_index])
         
+        # TODO: Add x labels
+        # TODO: Add y labels that run from ceil round max y value to 0
+        
         plt.tight_layout()
         plt.show()
         
 sim = Simulation(10, 'data/simulation.csv')
 sim.start(5)
-sim.show_data("Thing", 0)
+sim.show_data("Population over Turns", 0)
