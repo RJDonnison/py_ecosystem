@@ -1,6 +1,9 @@
+import math
+
 class Point2d:
     """A point in 2-space"""
     def __init__(self, x, y):
+        """Initialises a new Point object"""
         self.x = x
         self.y = y
 
@@ -15,25 +18,25 @@ class Point2d:
     def __add__(self, other):
         """Allow the use of '+' on points"""
         if not isinstance(other, Point2d):
-            raise TypeError(f"Unsupported operand type(s) for +: 'Point2d' and '{type(other).__name__}'")
+            raise TypeError
         return Point2d(self.x + other.x, self.y + other.y)
     
     def __sub__(self, other):
         """Allow the use of '-' on points"""
         if not isinstance(other, Point2d):
-            raise TypeError(f"Unsupported operand type(s) for -: 'Point2d' and '{type(other).__name__}'")
+            raise TypeError
         return Point2d(self.x - other.x, self.y - other.y)
     
-    def distance(self, other):
-        """Returns the distance between two points"""
-        if not isinstance(other, Point2d):
-            raise TypeError(f"Unsupported type(s):'{type(other).__name__}'")
-        return ((other.x - self.x) ** 2 + (other.y - self.y) ** 2) ** 0.5
+    def distance_to(self, pos):
+        """Calculate Euclidean distance between two positions."""
+        if not isinstance(pos, Point2d):
+            raise TypeError
+        return math.sqrt((self.x - pos.x) ** 2 + (self.y - pos.y) ** 2)
     
-    def midpoint(self, other):
-        """Returns the midpoint between two points"""
-        if not isinstance(other, Point2d):
-            raise TypeError(f"Unsupported type(s):'{type(other).__name__}'")
-        x = (self.x + other.x) / 2
-        y = (self.y + other.y) / 2
-        return Point2d(x, y)
+    def midpoint(self, pos):
+        """Calculate the midpoint between two positions."""
+        if not isinstance(pos, Point2d):
+            raise TypeError
+        mid_x = (self.x + pos.x) / 2
+        mid_y = (self.y + pos.y) / 2
+        return Point2d(mid_x, mid_y)

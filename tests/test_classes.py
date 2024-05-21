@@ -7,6 +7,7 @@ import unittest
 from math import sqrt
 
 from classes.point2d import Point2d
+from classes.creature import Creature
 
 class Test_Point2d(unittest.TestCase):
     """Test point2d class"""
@@ -35,8 +36,8 @@ class Test_Point2d(unittest.TestCase):
         self.assertEqual(p.x, -2)
         self.assertEqual(p.y, -2)
         
-    def test_distance(self):
-        dist = self.p1.distance(self.p2)
+    def test_distance_to(self):
+        dist = self.p1.distance_to(self.p2)
         self.assertAlmostEqual(dist, sqrt(8))
         
     def test_midpoint(self):
@@ -54,7 +55,7 @@ class Test_Point2d(unittest.TestCase):
 
     def test_distance_type_error(self):
         with self.assertRaises(TypeError):
-            self.p1.distance("not a point")
+            self.p1.distance_to("not a point")
 
     def test_midpoint_type_error(self):
         with self.assertRaises(TypeError):
@@ -62,3 +63,24 @@ class Test_Point2d(unittest.TestCase):
     
 class Test_Creature(unittest.TestCase):
     """Test creature class"""
+    def setUp(self):
+        """Set up test fixtures"""
+        self.initial_pos = Point2d(2, 3)
+        self.new_pos = Point2d(5, 6)
+        self.energy = 15
+        self.creature = Creature(self.initial_pos, self.energy)
+
+    def test_initialization(self):
+        """Test the initialization of a Creature"""
+        self.assertEqual(self.creature.pos, self.initial_pos)
+        self.assertEqual(self.creature.energy, self.energy)
+
+    def test_repr(self):
+        """Test the string representation of a Creature"""
+        expected_repr = f"Creature({self.initial_pos.x}, {self.initial_pos.y}, {self.energy})"
+        self.assertEqual(repr(self.creature), expected_repr)
+
+    def test_move(self):
+        """Test the move method of a Creature"""
+        self.creature.move(self.new_pos)
+        self.assertEqual(self.creature.pos, self.new_pos)
