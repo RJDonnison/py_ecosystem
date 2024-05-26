@@ -8,6 +8,7 @@ from math import sqrt
 
 from classes.point2d import Point2d
 from classes.creature import Creature
+from classes.tree import Tree
 
 class Test_Point2d(unittest.TestCase):
     """Test point2d class"""
@@ -82,5 +83,35 @@ class Test_Creature(unittest.TestCase):
 
     def test_move(self):
         """Test the move method of a Creature"""
-        self.creature.move(self.new_pos)
+        moved = self.creature.move(self.new_pos)
+        self.assertTrue(moved)
         self.assertEqual(self.creature.pos, self.new_pos)
+        expected_energy = self.energy - self.initial_pos.distance_to(self.new_pos)
+        self.assertEqual(self.creature.energy, expected_energy)
+
+    def test_move_insufficient_energy(self):
+        """Test the move method of a Creature with insufficient energy"""
+        self.creature.energy = 1  # Set low energy
+        moved = self.creature.move(self.new_pos)
+        self.assertFalse(moved)
+        self.assertEqual(self.creature.pos, self.initial_pos)  # Position should not change
+        
+class Test_Tree(unittest.TestCase):
+    """Test tree class"""
+    def test_initialization(self):
+        """Test the initialization of a Tree"""
+        pos = Point2d(2, 3)
+        food = 5
+        tree = Tree(pos, food)
+        
+        self.assertEqual(tree.pos, pos)
+        self.assertEqual(tree.food, food)
+
+    def test_repr(self):
+        """Test the string representation of a Tree"""
+        pos = Point2d(2, 3)
+        food = 5
+        tree = Tree(pos, food)
+        
+        expected_repr = f"Tree({pos.x}, {pos.y}, {food})"
+        self.assertEqual(repr(tree), expected_repr)

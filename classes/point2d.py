@@ -27,6 +27,11 @@ class Point2d:
             raise TypeError
         return Point2d(self.x - other.x, self.y - other.y)
     
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, Point2d):
+            raise TypeError
+        return (self.x == value.x and self.y == value.y)
+    
     def distance_to(self, pos):
         """Calculate Euclidean distance between two positions."""
         if not isinstance(pos, Point2d):
